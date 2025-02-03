@@ -35,7 +35,7 @@ export default function Home() {
             </div>
             <div>
               <Image
-                src="/illustrations/3d-yaya-making-heart.png"
+                src="/illustrations/3d-yaya-making-heart(reduce).webp"
                 alt="Yaya AI"
                 width={300}
                 height={300}
@@ -52,7 +52,7 @@ export default function Home() {
         <div className="flex flex-col items-center gap-6 w-10/12">
           <div className="flex flex-col md:flex-row gap-8 py-4 justify-evenly items-center">
             <Image
-              src="/illustrations/3d-groceries.png"
+              src="/illustrations/3d-groceries-bag(reduce).webp"
               height={300}
               width={300}
               alt="Groceries in a paper bag"
@@ -66,7 +66,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row gap-8 py-4 justify-evenly  items-center">
             <Image
               className=""
-              src="/illustrations/3d-casual-life-young-smiling-woman-working-at-laptop-1.png"
+              src="/illustrations/3d-casual-life-young-smiling-woman-working-at-laptop-1(reduce).webp"
               height={300}
               width={300}
               alt="Girl Working on a Laptop"
@@ -79,7 +79,7 @@ export default function Home() {
           </div>
           <div className="flex flex-col md:flex-row gap-8 py-4 justify-evenly items-center">
             <Image
-              src="/illustrations/3d-mom-and-daughter-cooking.png"
+              src="/illustrations/3d-mom-and-daughter-cooking(reduce).webp"
               height={300}
               width={300}
               alt="Mother and Daughter cooking"

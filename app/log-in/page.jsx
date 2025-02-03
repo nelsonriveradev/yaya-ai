@@ -76,7 +76,7 @@ export default function LogIn() {
       <div className="hidden md:flex bg-cyan-700/70 md:w-6/12 justify-center items-center">
         <Image
           className="m-auto pt-[25%]"
-          src="/illustrations/3d-yaya-holding-phone.png"
+          src="/illustrations/yaya-holding-phone(reduce).webp"
           width={400}
           height={400}
           alt="YAYA AI holding a phone"
