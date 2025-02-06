@@ -25,7 +25,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="overflow-y-scroll scrollbar-thin">
+    <html lang="en" className="">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased `}
       >
