@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import SideBar from "../components/SideBar";
-import Reader from "@/app/Components/Reader";
+import RecipeViewer from "../components/RecipeViewer";
 
 export default function Page() {
   const [updateSibebar, setUpdateSibebar] = useState(false);
@@ -16,9 +16,7 @@ export default function Page() {
       <div className="w-1/4 border-r-2 p-2">
         <SideBar onRecipeClick={handleDisplayRecipe} />
       </div>
-      <div className="w-3/4 h-1/2">
-        <Reader recipe={recipe} />
-      </div>
+      <RecipeViewer recipe={recipe} />
     </div>
   );
 }

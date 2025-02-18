@@ -32,36 +32,36 @@ export default function SideBar({ updateSibebar, onRecipeClick }) {
     }
   }
   return (
-    <div>
+    <div className="">
       <h1 className=" hidden md:block text-xl text-center font-semibold text-gray-700 mb-3">
         Mis recetas
       </h1>
-      <div>
+      <div className=" flex flex-col items-center">
         {savedRecipes.length === 0 ? (
           <p>No hay recetas guardadas</p>
         ) : (
           savedRecipes.map((recipe) => (
             <div
               key={recipe.title}
-              className="flex justify-center border-2 border-cyan-700/75 px-2 py-1 mb-2 rounded-md gap-x-1"
+              className="flex items-center justify-between border-2 border-cyan-700/75 px-4 py-1 mb-2 rounded-md gap-x-2 w-5/6 hover:bg-cyan-700/75 "
             >
               <button
                 onClick={() => onRecipeClick(recipe.content)}
                 className=""
               >
-                <p className="text-gray-700 ">
-                  {truncateText(recipe.title, 20)}
+                <p className="text-gray-700 hover:underline hover:text-white">
+                  {truncateText(recipe.title.replace(/^#\s*/, ""), 20)}
                 </p>
               </button>
               <button
                 onClick={() => deleteRecipeHandle(recipe.title)}
-                className="py-1 px-2 rounded-md mb-2"
+                className=" rounded-md "
               >
                 <Image
                   className="cursor-pointer min-w-<18> min-h-<18>"
-                  src="/Icons/icons8-delete-red.svg"
-                  width={18}
-                  height={18}
+                  src="https://img.icons8.com/ios/50/delete-forever--v1.png"
+                  width={20}
+                  height={20}
                   alt="delete icon"
                 />
               </button>

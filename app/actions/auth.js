@@ -9,7 +9,7 @@ import {
   getRedirectResult,
 } from "firebase/auth";
 import { redirect } from "next/navigation";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, getDoc } from "firebase/firestore";
 import { db, auth } from "../lib/firebase";
 
 //Sign in with Google
@@ -21,12 +21,25 @@ export const signInWithGoogle = async () => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
         const user = result.user;
-        await setDoc(doc(db, "users", user.uid), {
-          name: user.displayName,
-          email: user.email,
-        });
-        console.log("google sign in called");
-        return { user, token };
+        if (!user.exists()) {
+          await setDoc(doc(db, "users", user.uid), {
+            name: user.displayName,
+            email: user.email,
+          });
+          // i want to check if user exists in the database in firestore
+          // if not, create a new document for the user
+          const userDocRef = doc(db, "aiApiCount", user.uid);
+          const userDoc = await getDoc(userDocRef);
+
+          await setDoc(userDocRef, {
+            apiCallCount: 0,
+            name: user.displayName,
+            email: user.email,
+          });
+
+          console.log(user);
+          return { user, token };
+        }
       })
       .finally(() => {
         redirect("/make-recipe");
@@ -82,6 +95,7 @@ export const signUp = async (email, password, name) => {
         await setDoc(doc(db, "users", user.uid), {
           name: name,
           email: email,
+          apiCallCount: 0,
         });
       });
       return credential;

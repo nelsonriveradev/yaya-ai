@@ -4,7 +4,7 @@ import remarkGfm from "remark-gfm";
 
 export default function Reader(props) {
   return (
-    <div className=" h-[80%] overflow-y-scroll scrollbar-thin">
+    <div className=" w-full overflow-y-scroll scrollbar-thin">
       <ReactMarkdown
         className="prose w-full  self-center"
         remarkPlugins={[remarkGfm]}
