@@ -1,13 +1,17 @@
 // app/make-recipe/generate/page.jsx
 "use client";
-import Image from "next/image";
+import { getAuth } from "firebase/auth";
 import { useState, useEffect } from "react";
 import IngredientForm from "../components/IngredientForm";
 import IdeaForm from "../components/IdeaForm";
 import RecipeViewer from "../components/RecipeViewer";
-import { getRecipeByIdea, generateRecipeByIngredients } from "../actions";
+import {
+  getRecipeByIdea,
+  generateRecipeByIngredients,
+  checkAndUpdateApiUsage,
+  fetchApiUsage,
+} from "../actions";
 import { saveRecipe } from "@/app/actions/saveRecipe";
-import NotificationCard from "@/app/Components/Notification";
 import { ToastContainer, toast } from "react-toastify";
 export default function GenerateForms() {
   // State to store user input from forms
@@ -16,11 +20,17 @@ export default function GenerateForms() {
   const [recipe, setRecipe] = useState(""); // Stores generated recipe
   const [loading, setLoading] = useState(false);
   const [selectedComponent, setSelectedComponent] = useState("");
-  const [apiLimit, setApiLimit] = useState();
+  const [apiLimit, setApiLimit] = useState(0);
   const [savingRecipe, setSavingRecipe] = useState(false);
 
-  // Check if user has reached API limit
-
+  async function getApiLimit() {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const userID = user.uid;
+    const apiUsage = await fetchApiUsage(userID);
+    setApiLimit(apiUsage);
+  }
+  getApiLimit();
   // Function to update ingredients list
   const handleIngredientsChange = (newIngredients) => {
     setIngredients(newIngredients);
@@ -37,10 +47,22 @@ export default function GenerateForms() {
 
   // Function to generate a recipe (using API)
   async function getRecipe() {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const userID = user.uid;
     try {
       setLoading(true);
-      const recipeResponse = await generateRecipeByIngredients(ingredients);
-      setRecipe(recipeResponse);
+      const isApiLimitReached = await checkAndUpdateApiUsage(userID);
+      if (isApiLimitReached) {
+        toast.error("Limite de uso de API alcanzado. Intente más tarde");
+        setLoading(false);
+        getApiLimit();
+      } else {
+        setLoading(true);
+        const recipeResponse = await generateRecipeByIngredients(ingredients);
+        setRecipe(recipeResponse);
+        setLoading(false);
+      }
       console.log(apiLimit);
 
       setLoading(false);
@@ -51,10 +73,30 @@ export default function GenerateForms() {
   }
 
   async function getRecipeIdea() {
-    setLoading(true);
-    const recipeResponse = await getRecipeByIdea(idea);
-    setRecipe(recipeResponse);
-    setLoading(false);
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const userID = user.uid;
+    try {
+      setLoading(true);
+      const isApiLimitReached = await checkAndUpdateApiUsage(userID);
+      if (isApiLimitReached) {
+        setLoading(false);
+        toast.error("Limite de uso de API alcanzado. Intente más tarde");
+      } else {
+        setLoading(true);
+        const recipeResponse = await getRecipeByIdea(idea);
+        setRecipe(recipeResponse);
+        setLoading(false);
+      }
+
+      const recipeResponse = await getRecipeByIdea(idea);
+      setRecipe(recipeResponse);
+      setLoading(false);
+    } catch (error) {
+      toast.error("Error al generar la receta");
+      console.error("Error fetching recipe:", error);
+      return "";
+    }
   }
 
   function recipeFunc() {
@@ -137,6 +179,10 @@ export default function GenerateForms() {
             </button>
           </div>
         )}
+        <p className="text-gray-700 text-center mt-3">
+          Te quedan{" "}
+          <span className="text-cyan-700 font-bold">{10 - apiLimit}</span> usos.
+        </p>
       </div>
 
       {/* Right - Recipe Viewer */}
