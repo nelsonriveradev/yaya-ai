@@ -1,7 +1,29 @@
 import Link from "next/link";
 import Image from "next/image";
 import ProfileContainer from "./ProfileContainer";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
 export default function DashboardSideBar() {
+  //items
+
+  const items = [
+    {
+      title: "Generar 👩‍🍳",
+      url: "/make-recipe/generar",
+    },
+    {
+      title: "Recetas 🍽️",
+      url: "/make-recipe/mis-recetas",
+    },
+  ];
   return (
     <div className=" flex flex-col gap-y-2 w-1/6 border-r-2 p-4  justify-between">
       <div className="flex flex-col gap-y-3 items-center">

@@ -1,4 +1,6 @@
 import DashboardSideBar from "../Components/DashboardSideBar";
+import { SidebarProvider, SidebarTrigger } from "@components/ui/sidebar";
+import { AppSidebar } from "@components/ui/app-sidebar";
 
 const DashboardLayout = ({ children }) => {
   return (
